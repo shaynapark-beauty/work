@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Invoice — DIAMI USA CORPORATION</title>
+<style>
+  :root {
+    --ink: #1a1a1a;
+    --muted: #6b7280;
+    --line: #e5e7eb;
+    --accent: #111827;
+    --bg-soft: #f9fafb;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: var(--ink);
+    background: #f3f4f6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .sheet {
+    width: 8.5in;
+    min-height: 11in;
+    margin: 24px auto;
+    background: #fff;
+    padding: 0.7in 0.75in;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  }
+
+  /* Header */
+  .head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 3px solid var(--accent);
+    padding-bottom: 22px;
+  }
+  .brand .name {
+    font-size: 26px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+  }
+  .brand .sub {
+    margin-top: 6px;
+    font-size: 12px;
+    line-height: 1.55;
+    color: var(--muted);
+  }
+  .doc-title {
+    text-align: right;
+  }
+  .doc-title h1 {
+    font-size: 34px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+  }
+  .doc-title .meta {
+    margin-top: 10px;
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+  .doc-title .meta b { color: var(--ink); }
+
+  /* Parties */
+  .parties {
+    display: flex;
+    gap: 32px;
+    margin-top: 28px;
+  }
+  .party { flex: 1; }
+  .party .label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .party .who {
+    font-size: 14px;
+    font-weight: 700;
+  }
+  .party .addr {
+    margin-top: 4px;
+    font-size: 12.5px;
+    line-height: 1.6;
+    color: #374151;
+  }
+
+  /* Table */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 30px;
+  }
+  thead th {
+    background: var(--accent);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-align: left;
+    padding: 11px 14px;
+  }
+  thead th.right { text-align: right; }
+  tbody td {
+    padding: 16px 14px;
+    font-size: 13px;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+  tbody td.right { text-align: right; white-space: nowrap; }
+  .item-title { font-weight: 700; }
+  .item-desc {
+    margin-top: 5px;
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* Totals */
+  .totals {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 18px;
+  }
+  .totals table {
+    width: 320px;
+    margin-top: 0;
+  }
+  .totals td {
+    border: none;
+    padding: 7px 14px;
+    font-size: 13px;
+  }
+  .totals td.label { color: var(--muted); }
+  .totals td.val { text-align: right; }
+  .totals tr.grand td {
+    border-top: 2px solid var(--accent);
+    padding-top: 12px;
+    font-size: 16px;
+    font-weight: 800;
+  }
+
+  /* Payment box */
+  .pay {
+    margin-top: 34px;
+    background: var(--bg-soft);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 18px 20px;
+  }
+  .pay h3 {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 14px;
+  }
+  .pay-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 32px;
+  }
+  .field {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    font-size: 12.5px;
+  }
+  .field .k {
+    flex: 0 0 130px;
+    color: var(--muted);
+    font-weight: 600;
+  }
+  .field .v {
+    flex: 1;
+    border-bottom: 1px solid #cbd5e1;
+    min-height: 18px;
+  }
+
+  /* Footer / notes */
+  .notes {
+    margin-top: 26px;
+    font-size: 11.5px;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+  .sign {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 46px;
+  }
+  .sign .box { text-align: center; width: 240px; }
+  .sign .line {
+    border-top: 1px solid #9ca3af;
+    margin-bottom: 6px;
+  }
+  .sign .cap { font-size: 11px; color: var(--muted); }
+
+  .thanks {
+    margin-top: 40px;
+    text-align: center;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+  }
+
+  @media print {
+    body { background: #fff; }
+    .sheet { margin: 0; box-shadow: none; width: auto; min-height: auto; }
+    @page { size: letter; margin: 0.5in; }
+  }
+</style>
+</head>
+<body>
+  <div class="sheet">
+
+    <!-- Header -->
+    <div class="head">
+      <div class="brand">
+        <div class="name">DIAMI USA CORPORATION</div>
+        <div class="sub">
+          3435 Wilshire Blvd #2090<br>
+          Los Angeles, CA 90010<br>
+          United States
+        </div>
+      </div>
+      <div class="doc-title">
+        <h1>INVOICE</h1>
+        <div class="meta">
+          <div>Invoice No.&nbsp; <b>DIAMI-2026-0530</b></div>
+          <div>Invoice Date&nbsp; <b>June 12, 2026</b></div>
+          <div>Due Date&nbsp; <b>Upon Receipt</b></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Parties -->
+    <div class="parties">
+      <div class="party">
+        <div class="label">Bill To</div>
+        <div class="who">Dahree</div>
+        <div class="addr">
+          1257 Lakeside Drive<br>
+          Sunnyvale, CA 94085<br>
+          United States
+        </div>
+      </div>
+      <div class="party">
+        <div class="label">From</div>
+        <div class="who">DIAMI USA Corporation</div>
+        <div class="addr">
+          3435 Wilshire Blvd #2090<br>
+          Los Angeles, CA 90010<br>
+          United States
+        </div>
+      </div>
+    </div>
+
+    <!-- Line items -->
+    <table>
+      <thead>
+        <tr>
+          <th>Description</th>
+          <th class="right">Qty</th>
+          <th class="right">Unit Price</th>
+          <th class="right">Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <div class="item-title">DIAMI x Dahree Nail Product Seminar — Seminar Fee</div>
+            <div class="item-desc">
+              Venue: 8738 International Drive, Orlando, Florida 32819<br>
+              Seminar Date: May 30, 2026
+            </div>
+          </td>
+          <td class="right">1</td>
+          <td class="right">$2,281.76</td>
+          <td class="right">$2,281.76</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Totals -->
+    <div class="totals">
+      <table>
+        <tr>
+          <td class="label">Subtotal</td>
+          <td class="val">$2,281.76</td>
+        </tr>
+        <tr>
+          <td class="label">Tax</td>
+          <td class="val">$0.00</td>
+        </tr>
+        <tr class="grand">
+          <td>Total Due (USD)</td>
+          <td class="val">$2,281.76</td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- Payment details -->
+    <div class="pay">
+      <h3>Payment Instructions — Wire / ACH Transfer</h3>
+      <div class="pay-grid">
+        <div class="field"><span class="k">Bank Name</span><span class="v"></span></div>
+        <div class="field"><span class="k">Account Name</span><span class="v"></span></div>
+        <div class="field"><span class="k">Account Number</span><span class="v"></span></div>
+        <div class="field"><span class="k">Routing Number</span><span class="v"></span></div>
+        <div class="field"><span class="k">SWIFT / BIC</span><span class="v"></span></div>
+        <div class="field"><span class="k">Bank Address</span><span class="v"></span></div>
+        <div class="field"><span class="k">Reference / Memo</span><span class="v"></span></div>
+        <div class="field"><span class="k">Other</span><span class="v"></span></div>
+      </div>
+    </div>
+
+    <!-- Notes -->
+    <div class="notes">
+      Please reference Invoice No. DIAMI-2026-0530 with your payment. All amounts are stated in U.S. Dollars (USD).
+      For any questions regarding this invoice, please contact DIAMI USA Corporation.
+    </div>
+
+    <!-- Signature -->
+    <div class="sign">
+      <div class="box">
+        <div class="line"></div>
+        <div class="cap">Authorized Signature — DIAMI USA Corporation</div>
+      </div>
+    </div>
+
+    <div class="thanks">THANK YOU FOR YOUR BUSINESS</div>
+
+  </div>
+</body>
+</html>
